@@ -1,0 +1,4 @@
+dev/joshuagordon/bossbar/BossBarListener.java
+ dev.joshuagordon.bossbar.BossBarListener
+dev/joshuagordon/bossbar/BossBarPlugin.java
+ dev.joshuagordon.bossbar.BossBarPlugin

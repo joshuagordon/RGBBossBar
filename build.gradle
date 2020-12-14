@@ -1,0 +1,74 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+    id "maven-publish"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+group = 'dev.joshuagordon'
+version = '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+ext {
+    base = "dev.joshuagordon.bossbar.libs"
+}
+
+repositories {
+    maven {
+        url = 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype-oss'
+        url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+    maven {
+        url = "https://repo.maven.apache.org/maven2/"
+    }
+    maven {
+        url = "https://mvnrepository.com/artifact/net.md-5/bungeecord-api"
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+shadowJar {
+    relocate("net.kyori", "${base}.kyori")
+    archiveFileName = "BossBar-${project.version}.jar"
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    implementation 'net.kyori:adventure-text-minimessage:4.0.0-SNAPSHOT'
+    implementation 'net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT'
+
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT'
+    compileOnly 'net.md-5:bungeecord-api:1.16-R0.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    test.compileClasspath += configurations.compileOnly
+    test.runtimeClasspath += configurations.compileOnly
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
