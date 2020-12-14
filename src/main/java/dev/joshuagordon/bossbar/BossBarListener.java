@@ -37,7 +37,7 @@ public class BossBarListener implements Listener {
     public void setupConfig() {
         // Create strings
         String world = "world";
-        String title = "<rainbow>Camm is cool.</rainbow>"; // Yay for MiniMessage syntax
+        String title = "<rainbow>RGB Boss Bars are cool.</rainbow>"; // Yay for MiniMessage syntax
         String barColor = "PURPLE";
         String barStyle = "PROGRESS";
         float progress = 1f;
